@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+import MarketGrowthChart from '../components/react/MarketGrowthChart';
+import PriorityBarChart from '../components/react/PriorityBarChart';
+import TechRadarChart from '../components/react/TechRadarChart';
+import MethodFitChart from '../components/react/MethodFitChart';
+import SeniorDriverStats from '../components/react/SeniorDriverStats';
+import ServiceFlowDiagram from '../components/react/ServiceFlowDiagram';
+import TechEcosystemFlow from '../components/react/TechEcosystemFlow';
+---
+
+<BaseLayout title="Enhanced Analytics - AI 핀테크 리서치">
+
+<section class="hero" style="min-height: 60vh;">
+  <div class="hero-content">
+    <div class="hero-badge">📊 Enhanced Data Visualization</div>
+    <h1>인터랙티브<br>데이터 분석</h1>
+    <p class="hero-sub">원본 보고서의 데이터를 Recharts와 React Flow로 시각화한 인터랙티브 인포그래픽 페이지</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">7</div>
+        <div class="hero-stat-label">인터랙티브 차트</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-label">플로우 다이어그램</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">분석 아이템</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 시장 성장 & 우선순위 -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">MARKET & PRIORITY</div>
+      <div class="section-title">시장 전망 & 종합 평가</div>
+      <p class="section-desc">AI 헬스케어 시장의 폭발적 성장과 아이템별 종합 우선순위 점수</p>
+    </div>
+
+    <MarketGrowthChart client:visible />
+    <PriorityBarChart client:visible />
+  </div>
+</section>
+
+<!-- 기술 분석 -->
+<section class="section section--method1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">TECHNOLOGY</div>
+      <div class="section-title">기술 의존도 분석</div>
+      <p class="section-desc">각 아이템이 의존하는 핵심 기술 스택과 탐색방법별 적합도 비교</p>
+    </div>
+
+    <TechRadarChart client:visible />
+    <MethodFitChart client:visible />
+  </div>
+</section>
+
+<!-- 고령 운전자 심층 분석 -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">DEEP DIVE</div>
+      <div class="section-title">고령 운전자 심층 분석</div>
+      <p class="section-desc">교통사고 통계와 서비스 프로세스 플로우 시각화</p>
+    </div>
+
+    <SeniorDriverStats client:visible />
+    <ServiceFlowDiagram client:visible />
+  </div>
+</section>
+
+<!-- 기술 생태계 -->
+<section class="section section--method3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">ECOSYSTEM</div>
+      <div class="section-title">기술 생태계 맵</div>
+      <p class="section-desc">4대 핵심 기술과 비즈니스 아이템 간의 연결 관계를 시각화</p>
+    </div>
+
+    <TechEcosystemFlow client:visible />
+
+    <div class="conclusion" style="margin-top: 80px;">
+      <h2>🎯 데이터 기반 결론</h2>
+      <p style="margin-bottom: 20px;">인터랙티브 시각화를 통해 확인한 결과, <strong style="color: var(--accent1);">AI 인지저하 탐지</strong>와 <strong style="color: var(--accent4);">고령 운전자 감지</strong>는 모든 분석 축에서 최상위를 기록합니다.</p>
+      <p style="margin-bottom: 20px;">기술 레이더 차트에서 두 아이템은 서로 보완적인 기술 스택을 갖추고 있어 <strong style="color: var(--accent2);">통합 플랫폼 구축</strong>이 효율적입니다.</p>
+      <p>전체 보고서는 <a href="/" style="color: var(--accent1); text-decoration: underline;">Report 페이지</a>에서 확인하세요.</p>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>

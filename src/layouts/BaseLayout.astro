@@ -1,0 +1,59 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'AI 핀테크 사업 아이템 리서치 보고서' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <script is:inline>
+    (function() {
+      const theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">TEAM-J Research</a>
+    <div class="navbar-links">
+      <a href="/" class:list={["navbar-link", { active: currentPath === '/' }]}>Report</a>
+      <a href="/enhanced" class:list={["navbar-link", { active: currentPath === '/enhanced' || currentPath === '/enhanced/' }]}>Enhanced</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="icon-sun">&#9728;&#65039;</span>
+        <span class="icon-moon">&#127769;</span>
+      </button>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer class="footer">
+    AI 핀테크 비즈니스 모델 — 사업 아이템 체계적 탐색 리서치 보고서 | 2026.03 | TEAM-J : 이정로, 정영, 이진영
+  </footer>
+
+  <script>
+    const btn = document.getElementById('theme-toggle');
+    btn?.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>

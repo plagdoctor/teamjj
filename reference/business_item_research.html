@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 핀테크 사업 아이템 리서치 보고서</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --card: #111827;
+  --card-alt: #1a2236;
+  --accent1: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --accent4: #f59e0b;
+  --accent5: #ef4444;
+  --accent6: #10b981;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-bright: #f8fafc;
+  --grad1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --grad2: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --grad3: linear-gradient(135deg, #f59e0b, #ef4444);
+  --grad4: linear-gradient(135deg, #10b981, #06b6d4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(6,182,212,0.08) 0%, transparent 50%);
+  animation: heroFloat 20s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2%, -1%) rotate(1deg); }
+  66% { transform: translate(-1%, 2%) rotate(-1deg); }
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.3);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  color: var(--accent1);
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
+}
+
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #fff 20%, #3b82f6 50%, #8b5cf6 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: var(--grad1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* SECTION */
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent1);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+/* METHOD CARDS */
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.method-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.method-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.method-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+}
+
+.method-card:nth-child(1)::before { background: var(--grad2); }
+.method-card:nth-child(2)::before { background: var(--grad1); }
+.method-card:nth-child(3)::before { background: var(--grad3); }
+
+.method-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.method-card:nth-child(1) .method-icon { background: rgba(6,182,212,0.15); color: var(--accent3); }
+.method-card:nth-child(2) .method-icon { background: rgba(59,130,246,0.15); color: var(--accent1); }
+.method-card:nth-child(3) .method-icon { background: rgba(245,158,11,0.15); color: var(--accent4); }
+
+.method-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-bright);
+}
+
+.method-card p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* ITEM RESEARCH SECTIONS */
+.research-block {
+  margin-bottom: 80px;
+  background: var(--card);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.research-header {
+  padding: 40px 40px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.research-num {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.research-header-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+
+.research-header-text .tag {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.research-body { padding: 32px 40px 40px; }
+
+/* INFOGRAPHIC BARS */
+.info-bars {
+  margin: 28px 0;
+}
+
+.info-bar {
+  margin-bottom: 18px;
+}
+
+.info-bar-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.info-bar-label span:first-child { color: var(--text); font-weight: 500; }
+.info-bar-label span:last-child { color: var(--accent1); font-weight: 700; font-family: 'Outfit', sans-serif; }
+
+.info-bar-track {
+  height: 10px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.info-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1.5s ease-out;
+}
+
+/* STAT ROWS */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.stat-box {
+  background: var(--card-alt);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.stat-box-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.stat-box-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+  margin: 28px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px; top: 0;
+  width: 2px; height: 100%;
+  background: linear-gradient(to bottom, var(--accent1), var(--accent2), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  padding-bottom: 4px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -28px; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent1);
+  border: 3px solid var(--bg);
+}
+
+.timeline-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+
+.timeline-item p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+/* DONUT CHARTS */
+.donut-row {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 32px 0;
+}
+
+.donut-item {
+  text-align: center;
+}
+
+.donut {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.donut-inner {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text-bright);
+}
+
+.donut-label {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  max-width: 120px;
+}
+
+/* COMPARISON TABLE */
+.comp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin: 28px 0;
+}
+
+.comp-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.comp-table td {
+  padding: 16px;
+  background: var(--card-alt);
+  font-size: 0.9rem;
+}
+
+.comp-table tr td:first-child { border-radius: 12px 0 0 12px; }
+.comp-table tr td:last-child { border-radius: 0 12px 12px 0; }
+
+/* FLOW DIAGRAM */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 28px 0;
+  justify-content: center;
+}
+
+.flow-step {
+  background: var(--card-alt);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: center;
+  min-width: 130px;
+  max-width: 160px;
+}
+
+.flow-step-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.flow-step-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.flow-arrow {
+  font-size: 1.2rem;
+  color: var(--accent1);
+}
+
+/* RADAR / SCORE */
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card-alt);
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.score-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.score-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+}
+
+.score-dot.filled { background: var(--accent1); }
+
+.score-label {
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* KEYWORD TAGS */
+.keyword-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.keyword-tag {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+/* INSIGHT BOX */
+.insight-box {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 16px;
+  padding: 28px;
+  margin: 28px 0;
+}
+
+.insight-box h4 {
+  font-size: 1rem;
+  color: var(--accent1);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.insight-box p {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+/* CONCLUSION */
+.conclusion {
+  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+  border-radius: 24px;
+  padding: 60px 48px;
+  text-align: center;
+  border: 1px solid rgba(59,130,246,0.15);
+  margin: 40px 0 80px;
+}
+
+.conclusion h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text-bright);
+}
+
+.conclusion p {
+  color: var(--text-dim);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* PRIORITY MATRIX */
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 32px 0;
+}
+
+.matrix-card {
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  border-radius: 16px;
+}
+
+.matrix-rank {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  opacity: 0.2;
+  position: absolute;
+  top: 12px; right: 20px;
+}
+
+.matrix-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-bright);
+}
+
+.matrix-card p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.matrix-card .matrix-score {
+  margin-top: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+/* MARKET SIZE VISUAL */
+.market-visual {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  justify-content: center;
+  margin: 32px 0;
+  min-height: 200px;
+}
+
+.market-bar-wrap {
+  text-align: center;
+  flex: 1;
+  max-width: 120px;
+}
+
+.market-bar {
+  border-radius: 12px 12px 0 0;
+  margin: 0 auto 12px;
+  width: 60px;
+  position: relative;
+  transition: height 1s ease-out;
+}
+
+.market-bar-val {
+  position: absolute;
+  top: -28px;
+  left: 50%; transform: translateX(-50%);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.market-bar-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* SEPARATOR */
+.sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 60px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .research-header, .research-body { padding-left: 24px; padding-right: 24px; }
+  .hero-stats { gap: 24px; }
+  .flow { flex-direction: column; align-items: center; }
+  .flow-arrow { transform: rotate(90deg); }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ICON BAR CHART */
+.icon-chart {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 28px 0;
+}
+
+.icon-chart-item {
+  text-align: center;
+  width: 100px;
+}
+
+.icon-chart-bar {
+  width: 40px;
+  margin: 0 auto 8px;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+
+.icon-chart-val {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.icon-chart-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+/* SWOT-like Grid */
+.quad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.quad-cell {
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.quad-cell h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quad-cell ul {
+  list-style: none;
+  padding: 0;
+}
+
+.quad-cell li {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  padding: 3px 0;
+  padding-left: 14px;
+  position: relative;
+}
+
+.quad-cell li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent1);
+}
+
+@media (max-width: 600px) {
+  .quad-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">📊 AI 핀테크 비즈니스 모델 리서치</div>
+    <h1>사업 아이템 발굴<br>체계적 탐색 리서치</h1>
+    <p class="hero-sub">CSV 데이터 11개 아이템을 분석하여, 5가지 체계적 탐색 방법 중 가장 적합한 3가지를 적용한 심층 리서치 보고서</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">11</div>
+        <div class="hero-stat-label">분석 대상 아이템</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">적용 탐색 방법</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">핵심 산업 분야</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 0: 탐색방법 개요 -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">OVERVIEW</div>
+      <div class="section-title">5가지 체계적 탐색 방법과 선정 근거</div>
+      <p class="section-desc">존 케이스(John Case)의 체계적 아이템 발굴 프레임워크에서 11개 아이템에 가장 부합하는 3가지를 선정</p>
+    </div>
+
+    <div class="methods-grid">
+      <div class="method-card">
+        <div class="method-icon">👥</div>
+        <h3>1. 소비자 니즈 분석 ✅</h3>
+        <p>고령화·1인가구 등 소비자의 미충족 니즈(Unmet Needs)에서 출발한 아이템이 전체의 <strong>64%</strong>를 차지. 간병보험, 노견케어, 자녀모니터링 등 소비자 페인포인트가 핵심 동인.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-icon">🔬</div>
+        <h3>3. 기술변화 분석 ✅</h3>
+        <p>AI/NLP, IoT, 컴퓨터비전 등 <strong>기술 변곡점</strong>에서 비롯된 아이템이 <strong>100%</strong>. 모든 아이템이 AI 기반 혁신을 핵심으로 활용하며 기술변화가 사업화의 전제 조건.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-icon">📈</div>
+        <h3>5. 메가트렌드 분석 ✅</h3>
+        <p>초고령사회 진입, AI 대중화, 개인화 소비 등 <strong>거시적 메가트렌드</strong>와 연계된 아이템이 <strong>82%</strong>. 장기적 시장 성장의 방향성과 일치하는 아이템 다수.</p>
+      </div>
+    </div>
+
+    <!-- 미선정 방법 -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 700px; margin: 0 auto;">
+      <div style="background: var(--card); border-radius: 14px; padding: 20px; opacity: 0.6; border: 1px solid rgba(255,255,255,0.04);">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px;">2. 기존 제품/서비스 분석</div>
+        <div style="font-size: 0.8rem; color: var(--text-dim);">경쟁 제품 개선형보다 신규 시장 창출형 아이템이 다수</div>
+      </div>
+      <div style="background: var(--card); border-radius: 14px; padding: 20px; opacity: 0.6; border: 1px solid rgba(255,255,255,0.04);">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px;">4. 정부정책 분석</div>
+        <div style="font-size: 0.8rem; color: var(--text-dim);">정책 연계 가능성은 있으나 직접 동인은 아님</div>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- 아이템 맵핑 차트 -->
+    <div class="section-header">
+      <div class="section-num">MAPPING</div>
+      <div class="section-title">아이템별 탐색방법 적합도</div>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>아이템</th>
+            <th>소비자 니즈</th>
+            <th>기술변화</th>
+            <th>메가트렌드</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 600;">🧠 AI 인지저하 탐지 (간병보험)</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬛</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">💑 AI 매칭 시스템</td>
+            <td>⬛⬛⬛⬛⬜</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬜⬜</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">🐕 노견 IoT 케어</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬜</td>
+            <td>⬛⬛⬛⬛⬜</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">🚗 고령 운전자 감지</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬛</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">🤟 수화 해석</td>
+            <td>⬛⬛⬛⬛⬜</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬜⬜</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">👓 AI 패션 체크</td>
+            <td>⬛⬛⬛⬛⬜</td>
+            <td>⬛⬛⬛⬛⬛</td>
+            <td>⬛⬛⬛⬛⬜</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== -->
+<!-- 탐색방법 1: 소비자 니즈 분석 -->
+<!-- =================== -->
+<section class="section" style="background: rgba(6,182,212,0.02);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">METHOD 01</div>
+      <div class="section-title">소비자 니즈 분석</div>
+      <p class="section-desc">고령화·디지털 세대·반려동물 가족화 등 소비자 라이프스타일 변화에서 발견한 미충족 니즈</p>
+    </div>
+
+    <!-- 아이템 1: AI 인지저하 탐지 -->
+    <div class="research-block">
+      <div class="research-header">
+        <div class="research-num" style="background: var(--grad2);">01</div>
+        <div class="research-header-text">
+          <h2>AI 인지저하 탐지 + 간병보험 연계</h2>
+          <span class="tag" style="background: rgba(6,182,212,0.15); color: var(--accent3);">고령화</span>
+          <span class="tag" style="background: rgba(59,130,246,0.15); color: var(--accent1);">인슈어테크</span>
+          <span class="tag" style="background: rgba(139,92,246,0.15); color: var(--accent2);">AI 헬스케어</span>
+        </div>
+      </div>
+      <div class="research-body">
+        <p>스마트폰 사용 패턴(타이핑 속도, 단어 선택)이나 음성 분석을 통해 초기 인지 저하를 탐지하고, 간병보험 리스크 관리 및 예방 서비스와 연계하는 모델.</p>
+
+        <h4 style="margin-top: 24px; color: var(--accent3); font-size: 0.9rem;">📊 소비자 니즈 근거</h4>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent3);">20.3%</div>
+            <div class="stat-box-label">2025 한국 고령화율</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent1);">40.1%</div>
+            <div class="stat-box-label">2050 예상 고령화율</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent2);">15억</div>
+            <div class="stat-box-label">2050 전세계 65세+</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent4);">45.3%</div>
+            <div class="stat-box-label">AI 헬스케어 CAGR</div>
+          </div>
+        </div>
+
+        <h4 style="color: var(--accent3); font-size: 0.9rem;">📈 AI 헬스케어 시장 성장 전망</h4>
+        <div class="market-visual">
+          <div class="market-bar-wrap">
+            <div class="market-bar" style="height: 40px; background: var(--grad2);">
+              <div class="market-bar-val" style="color: var(--accent3);">$14.3B</div>
+            </div>
+            <div class="market-bar-label">2017</div>
+          </div>
+          <div class="market-bar-wrap">
+            <div class="market-bar" style="height: 80px; background: var(--grad2);">
+              <div class="market-bar-val" style="color: var(--accent3);">$158B</div>
+            </div>
+            <div class="market-bar-label">2023</div>
+          </div>
+          <div class="market-bar-wrap">
+            <div class="market-bar" style="height: 140px; background: var(--grad1);">
+              <div class="market-bar-val" style="color: var(--accent1);">$677B</div>
+            </div>
+            <div class="market-bar-label">2025</div>
+          </div>
+          <div class="market-bar-wrap">
+            <div class="market-bar" style="height: 200px; background: var(--grad1);">
+              <div class="market-bar-val" style="color: var(--accent2);">$1,818B</div>
+            </div>
+            <div class="market-bar-label">2030(E)</div>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <h4>💡 핵심 인사이트</h4>
+          <p>한국은 세계 최속도로 초고령사회에 진입하였으며, 인력 기반 돌봄 서비스만으로는 한계. AI 기반 인지저하 조기 탐지 + 보험 리스크 관리는 '예방형 인슈어테크'로서 블루오션. 보험사 신상품 출시 경쟁과 맞물려 B2B 수익모델 구축이 용이.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아이템 2: 고령운전자 감지 -->
+    <div class="research-block">
+      <div class="research-header">
+        <div class="research-num" style="background: var(--grad3);">08</div>
+        <div class="research-header-text">
+          <h2>고령 운전자 인지력 저하 감지 & 면허 반납 유도</h2>
+          <span class="tag" style="background: rgba(245,158,11,0.15); color: var(--accent4);">모빌리티</span>
+          <span class="tag" style="background: rgba(239,68,68,0.15); color: var(--accent5);">안전</span>
+          <span class="tag" style="background: rgba(59,130,246,0.15); color: var(--accent1);">IoT</span>
+        </div>
+      </div>
+      <div class="research-body">
+        <p>차량 OBD/센서 데이터로 고령 운전자의 운전 패턴을 분석, 인지력 저하 판단 시 면허 반납 권고 + 인센티브를 제공하는 서비스.</p>
+
+        <h4 style="margin-top: 24px; color: var(--accent4); font-size: 0.9rem;">🚨 고령 운전자 교통사고 현황</h4>
+        <div class="info-bars">
+          <div class="info-bar">
+            <div class="info-bar-label"><span>65세+ 사고 비중 (2023)</span><span>20.2%</span></div>
+            <div class="info-bar-track"><div class="info-bar-fill" style="width: 20.2%; background: var(--grad3);"></div></div>
+          </div>
+          <div class="info-bar">
+            <div class="info-bar-label"><span>65세+ 가해 운전 비율 (2024)</span><span>21.6%</span></div>
+            <div class="info-bar-track"><div class="info-bar-fill" style="width: 21.6%; background: var(--accent5);"></div></div>
+          </div>
+          <div class="info-bar">
+            <div class="info-bar-label"><span>교통사고 사망자 중 고령층 (2024)</span><span>51.5%</span></div>
+            <div class="info-bar-track"><div class="info-bar-fill" style="width: 51.5%; background: var(--accent5);"></div></div>
+          </div>
+          <div class="info-bar">
+            <div class="info-bar-label"><span>면허소지자당 사고율 (65세+ vs 전체)</span><span>+45%</span></div>
+            <div class="info-bar-track"><div class="info-bar-fill" style="width: 45%; background: var(--accent4);"></div></div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent5);">517만</div>
+            <div class="stat-box-label">고령 면허소지자 (2024)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent4);">983만</div>
+            <div class="stat-box-label">예상 (2050)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent5);">2.2%</div>
+            <div class="stat-box-label">면허 자진반납률</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-num" style="color: var(--accent3);">42,369</div>
+            <div class="stat-box-label">고령사고 건수/년</div>
+          </div>
+        </div>
+
+        <h4 style="color: var(--accent4); font-size: 0.9rem;">🔄 서비스 플로우</h4>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-step-icon">🚗</div>
+            <div class="flow-step-text">차량 OBD<br>센서 수집</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">🧠</div>
+            <div class="flow-step-text">AI 운전패턴<br>분석</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">⚠️</div>
+            <div class="flow-step-text">인지력 저하<br>감지</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">📋</div>
+            <div class="flow-step-text">면허 반납<br>권고+인센티브</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">🏥</div>
+            <div class="flow-step-text">보험사 리스크<br>데이터 연계</div>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <h4>💡 핵심 인사이트</h4>
+          <p>고령 운전자 사고가 매년 역대 최고치를 경신하는 반면 면허 자진반납률은 2.2%에 불과. 시청역 역주행 사고 이후 정책적 관심이 급증하여 정부·보험사 협업 기회 확대. 보험사 리스크 데이터 + 정부 정책(조건부 면허제)과 시너지 가능.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아이템 3: 노견 케어 -->
+    <div class="research-block">
+      <div class="research-header">
+        <div class="research-num" style="background: var(--grad4);">06</div>
+        <div class="research-header-text">
+          <h2>IoT/카메라 기반 노견 상태 모니터링</h2>
+          <span class="tag" style="background: rgba(16,185,129,0.15); color: var(--accent6);">펫테크</span>
+          <span class="tag" style="background: rgba(59,130,246,0.15); color: var(--accent1);">IoT</span>
+          <span class="tag" style="background: rgba(6,182,212,0.15); color: var(--accent3);">시니어 확장</span>
+        </div>
+      </div>
+      <div class="research-body">
+        <p>카메라/센서로 노견의 상태를 실시간 모니터링, 이상행동 감지 시 알림 → 고령 시니어 돌봄으로 확장 가능한 플랫폼.</p>
+
+        <div class="quad-grid">
+          <div class="quad-cell" style="background: rgba(16,185,129,0.05);">
+            <h5 style="color: var(--accent6);">✅ 소비자 페인포인트</h5>
+            <ul>
+              <li>반려동물 고령화 (평균수명 증가)</li>
+              <li>맞벌이 가구 증가 → 돌봄 공백</li>
+              <li>반려동물 = 가족 인식 확대</li>
+              <li>노견 의료비 부담 증가</li>
+            </ul>
+          </div>
+          <div class="quad-cell" style="background: rgba(59,130,246,0.05);">
+            <h5 style="color: var(--accent1);">🚀 확장 가능성</h5>
+            <ul>
+              <li>시니어 낙상 감지로 확장</li>
+              <li>독거노인 이상 상태 알림</li>
+              <li>대리 산책 → GoPro 리포트</li>
+              <li>웨어러블 디바이스 연계</li>
+            </ul>
+          </div>
+          <div class="quad-cell" style="background: rgba(139,92,246,0.05);">
+            <h5 style="color: var(--accent2);">💰 수익 모델</h5>
+            <ul>
+              <li>구독형 SaaS (월 과금)</li>
+              <li>하드웨어 (센서/카메라) 판매</li>
+              <li>수의학 병원 제휴</li>
+              <li>펫 보험 데이터 연계</li>
+            </ul>
+          </div>
+          <div class="quad-cell" style="background: rgba(245,158,11,0.05);">
+            <h5 style="color: var(--accent4);">⚠️ 리스크</h5>
+            <ul>
+              <li>IoT 하드웨어 초기 투자</li>
+              <li>반려동물 행동 데이터 부족</li>
+              <li>가격 민감도 높은 소비자</li>
+              <li>경쟁 펫테크 서비스 다수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== -->
+<!-- 탐색방법 2: 기술변화 분석 -->
+<!-- =================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">METHOD 02</div>
+      <div class="section-title">기술변화 분석</div>
+      <p class="section-desc">AI·NLP·컴퓨터비전·IoT 등 기술 변곡점이 가능하게 만든 새로운 비즈니스 기회</p>
+    </div>
+
+    <!-- 핵심 기술 매핑 -->
+    <h4 style="text-align: center; color: var(--accent1); font-size: 0.9rem; margin-bottom: 20px;">🔧 아이템별 핵심 기술 의존도</h4>
+    <div style="overflow-x: auto;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>아이템</th>
+            <th>NLP</th>
+            <th>컴퓨터 비전</th>
+            <th>IoT/센서</th>
+            <th>추천 알고리즘</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 600;">AI 인지저하 탐지</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--accent6);">●●○</td>
+            <td style="color: var(--text-dim);">○○○</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">AI 매칭 시스템</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--accent6);">●●●</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">수화 해석</td>
+            <td style="color: var(--accent6);">●●○</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--text-dim);">○○○</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">고령 운전자 감지</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--accent6);">●○○</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--accent6);">●○○</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">AI 패션 체크</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--accent6);">●●○</td>
+            <td style="color: var(--accent6);">●●●</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">판서 자동 정리</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--accent6);">●●●</td>
+            <td style="color: var(--text-dim);">○○○</td>
+            <td style="color: var(--text-dim);">○○○</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- AI 매칭 시스템 상세 -->
+    <div class="research-block">
+      <div class="research-header">
+        <div class="research-num" style="background: var(--grad1);">02</div>
+        <div class="research-header-text">
+          <h2>AI 대화 기반 매칭 시스템 (나는솔로)</h2>
+          <span class="tag" style="background: rgba(59,130,246,0.15); color: var(--accent1);">AI 매칭</span>
+          <span class="tag" style="background: rgba(139,92,246,0.15); color: var(--accent2);">NLP</span>
+          <span class="tag" style="background: rgba(245,158,11,0.15); color: var(--accent4);">여행 확장</span>
+        </div>
+      </div>
+      <div class="research-body">
+        <p>단순 설문이 아닌 AI 챗봇과의 자연스러운 대화를 통해 성향을 파악하고 매칭하는 시스템. 연애 상담 + 여행 매칭으로 확장 가능.</p>
+
+        <h4 style="margin-top: 24px; color: var(--accent1); font-size: 0.9rem;">⚙️ 기술 변곡점 — 왜 지금 가능한가?</h4>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>2023: 생성형 AI 대중화</h4>
+            <p>ChatGPT 등장 이후 자연스러운 대화 기반 프로파일링이 비로소 가능해짐. 기존 설문 기반 매칭의 한계를 돌파.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2024: NLP 감성분석 고도화</h4>
+            <p>대화 맥락에서 성격, 가치관, 감정 패턴을 추출하는 기술 성숙. MBTI 수준을 넘어선 다차원 프로파일링.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2025: 초개인화 AI 에이전트</h4>
+            <p>사용자별 맞춤형 AI 에이전트가 지속적으로 학습·대화하며 정밀 매칭 정확도 향상. 데이팅앱 시장의 패러다임 전환.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2026: 멀티모달 + 에이전트 결합</h4>
+            <p>음성·영상·텍스트를 통합 분석하는 멀티모달 AI 도입으로 비언어적 성향까지 파악 가능.</p>
+          </div>
+        </div>
+
+        <h4 style="color: var(--accent1); font-size: 0.9rem;">🔄 기존 vs AI 매칭 비교</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;">
+          <div style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15); border-radius: 14px; padding: 20px;">
+            <h5 style="color: var(--accent5); font-size: 0.9rem; margin-bottom: 10px;">❌ 기존 데이팅 앱</h5>
+            <ul style="list-style: none; padding: 0;">
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 사진·스펙 기반 스와이프</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 정적 프로필 설문</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 낮은 매칭 정확도</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 피로감·번아웃 유발</li>
+            </ul>
+          </div>
+          <div style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 14px; padding: 20px;">
+            <h5 style="color: var(--accent6); font-size: 0.9rem; margin-bottom: 10px;">✅ AI 대화 매칭</h5>
+            <ul style="list-style: none; padding: 0;">
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 자연 대화 기반 성향 파악</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 다차원 동적 프로파일링</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 가치관 기반 정밀 매칭</li>
+              <li style="font-size: 0.85rem; color: var(--text-dim); padding: 4px 0;">• 연애 상담 → 수익 모델</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <h4>💡 핵심 인사이트</h4>
+          <p>Z세대의 50%가 데이팅 앱을 '새로운 사람 만나기' 목적으로 사용하며, 인터랙티브하고 진정성 있는 경험을 선호. 기존 스와이프 피로감에 대한 대안으로 AI 대화 매칭은 차별화된 가치 제공. 여행 매칭·커뮤니티로의 확장이 수익 다각화의 핵심.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 수화 해석 -->
+    <div class="research-block">
+      <div class="research-header">
+        <div class="research-num" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6);">07</div>
+        <div class="research-header-text">
+          <h2>실시간 수화 → 텍스트 변환 서비스</h2>
+          <span class="tag" style="background: rgba(139,92,246,0.15); color: var(--accent2);">접근성</span>
+          <span class="tag" style="background: rgba(59,130,246,0.15); color: var(--accent1);">컴퓨터비전</span>
+          <span class="tag" style="background: rgba(16,185,129,0.15); color: var(--accent6);">사회적 가치</span>
+        </div>
+      </div>
+      <div class="research-body">
+        <p>카메라로 수화 동작을 인식하여 실시간 텍스트 변환. 청각장애인 커뮤니케이션 접근성 혁신.</p>
+
+        <h4 style="margin-top: 24px; color: var(--accent2); font-size: 0.9rem;">⚙️ 기술 실현 가능성 평가</h4>
+        <div class="score-grid">
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot"></div>
+            </div>
+            <div class="score-label">AI 영상인식 성숙도</div>
+          </div>
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot"></div>
+              <div class="score-dot"></div>
+            </div>
+            <div class="score-label">한국 수화 데이터셋</div>
+          </div>
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+            </div>
+            <div class="score-label">사회적 임팩트</div>
+          </div>
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot"></div>
+              <div class="score-dot"></div>
+              <div class="score-dot"></div>
+            </div>
+            <div class="score-label">수익화 용이성</div>
+          </div>
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot"></div>
+            </div>
+            <div class="score-label">Real-time 추론 가능</div>
+          </div>
+          <div class="score-item">
+            <div class="score-dots">
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot filled"></div>
+              <div class="score-dot"></div>
+              <div class="score-dot"></div>
+            </div>
+            <div class="score-label">경쟁 서비스 부재</div>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <h4>💡 핵심 인사이트</h4>
+          <p>기술적으로 AI 영상 인식과 실시간 추론이 충분히 성숙한 단계. 수익모델이 약점이나 ESG/사회적 기업 프레임에서 정부보조금·공공기관 납품으로 접근 가능. 한국 수화 전용 데이터셋 구축이 진입장벽이자 경쟁우위.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== -->
+<!-- 탐색방법 3: 메가트렌드 분석 -->
+<!-- =================== -->
+<section class="section" style="background: rgba(139,92,246,0.02);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">METHOD 03</div>
+      <div class="section-title">메가트렌드 분석</div>
+      <p class="section-desc">초고령사회·AI 대중화·초개인화 등 거시 트렌드와의 정합성 검증</p>
+    </div>
+
+    <!-- 3대 메가트렌드 -->
+    <h4 style="text-align: center; color: var(--accent2); font-size: 0.9rem; margin-bottom: 24px;">🌐 2025-2030 핵심 메가트렌드 × 아이템 연계</h4>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 48px;">
+      <div style="background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(245,158,11,0.08)); border: 1px solid rgba(245,158,11,0.15); border-radius: 18px; padding: 28px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🏥</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-bright); margin-bottom: 8px;">메가트렌드 1: 초고령사회</h4>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px;">한국 2024.12 초고령사회 공식 진입. 2050년 고령화율 40.1% 전망.</p>
+        <div class="keyword-cloud">
+          <span class="keyword-tag" style="border-color: rgba(245,158,11,0.3); color: var(--accent4);">AI 인지저하 탐지</span>
+          <span class="keyword-tag" style="border-color: rgba(245,158,11,0.3); color: var(--accent4);">고령 운전자</span>
+          <span class="keyword-tag" style="border-color: rgba(245,158,11,0.3); color: var(--accent4);">유병자 매칭</span>
+          <span class="keyword-tag" style="border-color: rgba(245,158,11,0.3); color: var(--accent4);">노견→시니어 확장</span>
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08)); border: 1px solid rgba(59,130,246,0.15); border-radius: 18px; padding: 28px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🤖</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-bright); margin-bottom: 8px;">메가트렌드 2: AI 에이전트 시대</h4>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px;">2026년은 AI 에이전트가 실제 상용화 단계에 본격 진입하는 전환점.</p>
+        <div class="keyword-cloud">
+          <span class="keyword-tag" style="border-color: rgba(59,130,246,0.3); color: var(--accent1);">AI 대화 매칭</span>
+          <span class="keyword-tag" style="border-color: rgba(59,130,246,0.3); color: var(--accent1);">영어 학습 TTS</span>
+          <span class="keyword-tag" style="border-color: rgba(59,130,246,0.3); color: var(--accent1);">자녀 AI 모니터링</span>
+          <span class="keyword-tag" style="border-color: rgba(59,130,246,0.3); color: var(--accent1);">판서 자동 정리</span>
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(6,182,212,0.08)); border: 1px solid rgba(16,185,129,0.15); border-radius: 18px; padding: 28px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🎯</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-bright); margin-bottom: 8px;">메가트렌드 3: 초개인화</h4>
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px;">성향 진단 → 맞춤 솔루션 처방 방식이 2026 마케팅의 표준으로 자리잡는 추세.</p>
+        <div class="keyword-cloud">
+          <span class="keyword-tag" style="border-color: rgba(16,185,129,0.3); color: var(--accent6);">AI 패션 코디</span>
+          <span class="keyword-tag" style="border-color: rgba(16,185,129,0.3); color: var(--accent6);">퍼스널컬러 진단</span>
+          <span class="keyword-tag" style="border-color: rgba(16,185,129,0.3); color: var(--accent6);">맞춤형 영어 학습</span>
+          <span class="keyword-tag" style="border-color: rgba(16,185,129,0.3); color: var(--accent6);">AI 성향 매칭</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- 종합 우선순위 매트릭스 -->
+    <div class="section-header">
+      <div class="section-num">PRIORITY</div>
+      <div class="section-title">종합 우선순위 평가</div>
+      <p class="section-desc">3가지 탐색방법(소비자 니즈 × 기술변화 × 메가트렌드) 교차 분석 결과</p>
+    </div>
+
+    <div class="matrix">
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(139,92,246,0.08)); border: 1px solid rgba(59,130,246,0.2);">
+        <div class="matrix-rank" style="color: var(--accent1);">1</div>
+        <h4>🧠 AI 인지저하 탐지 + 간병보험</h4>
+        <p>소비자 니즈(초고령화) + 기술(NLP/음성AI) + 메가트렌드(고령사회) 3박자 완벽 부합. B2B 보험사 연계로 수익화 명확.</p>
+        <div class="matrix-score" style="color: var(--accent1);">종합 95점</div>
+      </div>
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(239,68,68,0.06)); border: 1px solid rgba(245,158,11,0.2);">
+        <div class="matrix-rank" style="color: var(--accent4);">2</div>
+        <h4>🚗 고령 운전자 인지력 감지</h4>
+        <p>사회적 긴급성(사고 급증) + 기술(IoT/센서) + 정책 방향성 부합. 보험사 리스크 데이터로 즉시 수익화 가능.</p>
+        <div class="matrix-score" style="color: var(--accent4);">종합 90점</div>
+      </div>
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.06)); border: 1px solid rgba(139,92,246,0.2);">
+        <div class="matrix-rank" style="color: var(--accent2);">3</div>
+        <h4>💑 AI 대화 매칭 시스템</h4>
+        <p>기술 변곡점(생성형AI) + 초개인화 트렌드 적합. 여행/커뮤니티 확장으로 플랫폼 성장 가능성 높음.</p>
+        <div class="matrix-score" style="color: var(--accent2);">종합 85점</div>
+      </div>
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(6,182,212,0.06)); border: 1px solid rgba(16,185,129,0.15);">
+        <div class="matrix-rank" style="color: var(--accent6);">4</div>
+        <h4>👓 AI 패션 체크 (스마트글래스)</h4>
+        <p>초개인화 메가트렌드 부합. 컴퓨터비전+AR 기술 활용. 화장품/뷰티 확장성 우수하나 하드웨어 의존도 높음.</p>
+        <div class="matrix-score" style="color: var(--accent6);">종합 78점</div>
+      </div>
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(16,185,129,0.06)); border: 1px solid rgba(6,182,212,0.15);">
+        <div class="matrix-rank" style="color: var(--accent3);">5</div>
+        <h4>🐕 노견 IoT 모니터링</h4>
+        <p>소비자 니즈 명확. 시니어 돌봄 확장이 핵심 가치. IoT 하드웨어 초기 투자가 진입장벽.</p>
+        <div class="matrix-score" style="color: var(--accent3);">종합 75점</div>
+      </div>
+      <div class="matrix-card" style="background: linear-gradient(135deg, rgba(139,92,246,0.06), rgba(59,130,246,0.04)); border: 1px solid rgba(139,92,246,0.12);">
+        <div class="matrix-rank" style="color: var(--text-dim);">6</div>
+        <h4>🤟 수화 해석 서비스</h4>
+        <p>사회적 가치 최상. 기술 실현 가능. 수익모델 구축 난이도가 핵심 과제. ESG/공공영역 접근 권장.</p>
+        <div class="matrix-score" style="color: var(--text-dim);">종합 70점</div>
+      </div>
+    </div>
+
+    <!-- 결론 -->
+    <div class="conclusion">
+      <h2>🎯 최종 제언</h2>
+      <p style="margin-bottom: 20px;">3가지 탐색방법 교차 분석 결과, <strong style="color: var(--accent1);">AI 인지저하 탐지 + 간병보험</strong>과 <strong style="color: var(--accent4);">고령 운전자 인지력 감지</strong>가 소비자 니즈·기술 성숙도·메가트렌드 3가지 모두에서 최고 점수를 받았습니다.</p>
+      <p style="margin-bottom: 20px;">특히 두 아이템은 <strong style="color: var(--accent2);">보험사 B2B 데이터 연계</strong>라는 공통 수익 모델을 공유하여 시너지 창출이 가능하며, 한국의 초고령사회 진입이라는 비가역적 메가트렌드 위에 놓여있어 장기적 시장 확대가 확실합니다.</p>
+      <p><strong style="color: var(--accent6);">AI 대화 매칭</strong>은 기술 변곡점 활용도가 높아 단기 MVP 출시에 유리하며, 여행·커뮤니티 확장을 통한 플랫폼 전략으로 성장 가능합니다.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer style="text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem;">
+  AI 핀테크 비즈니스 모델 — 사업 아이템 체계적 탐색 리서치 보고서 | 2026.03 | TEAM-J : 이정로, 정영, 이진영
+</footer>
+
+</body>
+</html>
