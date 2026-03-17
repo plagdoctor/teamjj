@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx astro build:*)",
+      "Bash(source:*)",
+      "Bash(nvm use:*)"
+    ]
+  }
+}

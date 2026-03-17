@@ -29,6 +29,7 @@ const currentPath = Astro.url.pathname;
     <div class="navbar-links">
       <a href="/" class:list={["navbar-link", { active: currentPath === '/' }]}>Report</a>
       <a href="/enhanced" class:list={["navbar-link", { active: currentPath === '/enhanced' || currentPath === '/enhanced/' }]}>Enhanced</a>
+      <a href="/deep-research" class:list={["navbar-link", { active: currentPath === '/deep-research' || currentPath === '/deep-research/' }]}>Deep Research</a>
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <span class="icon-sun">&#9728;&#65039;</span>
         <span class="icon-moon">&#127769;</span>
