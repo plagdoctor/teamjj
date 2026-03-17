@@ -1,0 +1,1003 @@
+---
+import '../styles/global.css';
+import {
+  AgingTrendChart, SingleHouseholdChart,
+  CaregivingInsuranceChart, DementiaProjectionChart,
+  AIMatchingShareChart,
+  PetMarketChart, PetInsuranceComparisonChart,
+  ElderlyAccidentTrendChart, LicenseSurrenderChart, ElderlyDriverProjectionChart,
+} from '../components/react/DeepResearchCharts';
+import {
+  item1Stats, item1Sources,
+  item2Stats, item2Sources,
+  item6Stats, item6Sources,
+  item8Stats, item8Sources,
+  comparisonMatrix,
+} from '../data/deepResearchData';
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Research PDF - AI 사업 아이템 심층 분석</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <style is:global>
+    /* ─── PDF 전용 인쇄 스타일 ─────────────────────────── */
+    @page {
+      size: A4 landscape;
+      margin: 14mm 16mm;
+    }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+    body.pdf-mode {
+      background: #0a0e1a;
+      color: #e2e8f0;
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 인쇄 시 숨길 요소 */
+    .no-print { display: flex; }
+    @media print {
+      .no-print { display: none !important; }
+    }
+
+    /* ─── 페이지 브레이크 ──────────────────────────────── */
+    .pdf-page {
+      page-break-before: always;
+      padding: 20px 0;
+    }
+    .pdf-page:first-of-type {
+      page-break-before: avoid;
+    }
+    .pdf-avoid-break {
+      page-break-inside: avoid;
+    }
+
+    /* ─── 표지 ─────────────────────────────────────────── */
+    .pdf-cover {
+      min-height: calc(100vh - 28mm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 40px 20px;
+    }
+    @media print {
+      .pdf-cover { min-height: auto; height: 100vh; box-sizing: border-box; }
+    }
+    .pdf-cover::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.18) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.14) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .pdf-cover-content { position: relative; z-index: 1; }
+    .pdf-cover-badge {
+      display: inline-block;
+      background: rgba(59,130,246,0.15);
+      border: 1px solid rgba(59,130,246,0.3);
+      padding: 8px 24px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: #3b82f6;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+    }
+    .pdf-cover h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 20%, #3b82f6 50%, #8b5cf6 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pdf-cover-sub {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 0 auto 48px;
+    }
+    .pdf-cover-stats {
+      display: flex;
+      justify-content: center;
+      gap: 56px;
+      margin-bottom: 48px;
+    }
+    .pdf-cover-stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pdf-cover-stat-label { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+    .pdf-cover-meta {
+      margin-top: 32px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    .pdf-cover-meta strong { color: #94a3b8; }
+
+    /* ─── 섹션 공통 ────────────────────────────────────── */
+    .pdf-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .pdf-section-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-top: 8px;
+    }
+    .pdf-section-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #3b82f6;
+      margin-bottom: 8px;
+    }
+    .pdf-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 10px;
+    }
+    .pdf-section-desc {
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 0.88rem;
+    }
+
+    /* ─── 스탯 행 ──────────────────────────────────────── */
+    .pdf-stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .pdf-stat-box {
+      background: #1a2236;
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .pdf-stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+    .pdf-stat-label { font-size: 0.72rem; color: #94a3b8; }
+
+    /* ─── 인사이트 박스 ────────────────────────────────── */
+    .pdf-insight {
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .pdf-insight h4 {
+      font-size: 0.88rem;
+      color: #3b82f6;
+      margin-bottom: 8px;
+    }
+    .pdf-insight p {
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.65;
+    }
+
+    /* ─── SWOT 그리드 ──────────────────────────────────── */
+    .pdf-swot {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .pdf-swot-cell {
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .pdf-swot-cell h5 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .pdf-swot-cell ul { list-style: none; padding: 0; margin: 0; }
+    .pdf-swot-cell li {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      padding: 2px 0 2px 12px;
+      position: relative;
+    }
+    .pdf-swot-cell li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+    }
+
+    /* ─── 참조자료 ─────────────────────────────────────── */
+    .pdf-sources {
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: #1a2236;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .pdf-sources h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+    .pdf-sources ul { list-style: none; padding: 0; margin: 0; }
+    .pdf-sources li {
+      font-size: 0.72rem;
+      padding: 3px 0;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .pdf-sources li:last-child { border-bottom: none; }
+    .pdf-sources a { color: #3b82f6; text-decoration: none; }
+
+    /* ─── 메가트렌드 카드 ──────────────────────────────── */
+    .pdf-trend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .pdf-trend-card {
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .pdf-trend-card--aging {
+      background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(245,158,11,0.08));
+      border: 1px solid rgba(245,158,11,0.15);
+    }
+    .pdf-trend-card--ai {
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+      border: 1px solid rgba(59,130,246,0.15);
+    }
+    .pdf-trend-card--personal {
+      background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(6,182,212,0.08));
+      border: 1px solid rgba(16,185,129,0.15);
+    }
+    .pdf-trend-card h4 {
+      font-size: 0.95rem;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+    .pdf-trend-card p {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* ─── 비교 테이블 ──────────────────────────────────── */
+    .pdf-comp-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 6px;
+      margin: 20px 0;
+    }
+    .pdf-comp-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pdf-comp-table td {
+      padding: 12px;
+      background: #1a2236;
+      font-size: 0.78rem;
+      color: #e2e8f0;
+    }
+    .pdf-comp-table tr td:first-child { border-radius: 10px 0 0 10px; }
+    .pdf-comp-table tr td:last-child { border-radius: 0 10px 10px 0; }
+
+    /* ─── 결론 ─────────────────────────────────────────── */
+    .pdf-conclusion {
+      background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+      border: 1px solid rgba(59,130,246,0.15);
+      margin-top: 32px;
+    }
+    .pdf-conclusion h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: #f8fafc;
+    }
+    .pdf-conclusion p {
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* ─── 플로우 ───────────────────────────────────────── */
+    .pdf-flow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      margin: 16px 0;
+    }
+    .pdf-flow-step {
+      background: #1a2236;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: center;
+      min-width: 110px;
+    }
+    .pdf-flow-step-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .pdf-flow-step-text { font-size: 0.72rem; font-weight: 600; color: #e2e8f0; }
+    .pdf-flow-arrow { font-size: 1rem; color: #3b82f6; }
+
+    /* ─── 인쇄 버튼 ───────────────────────────────────── */
+    .pdf-print-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,14,26,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pdf-print-bar span {
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+    .pdf-print-bar a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .pdf-print-bar a:hover { color: #3b82f6; }
+    .pdf-print-btn {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .pdf-print-btn:hover { opacity: 0.9; }
+
+    /* ─── 차트 래퍼 오버라이드 (PDF용 축소) ────────────── */
+    @media print {
+      body.pdf-mode { padding-top: 0 !important; }
+    }
+    body.pdf-mode { padding-top: 56px; }
+  </style>
+</head>
+<body class="pdf-mode">
+
+<!-- 인쇄 버튼 바 -->
+<div class="pdf-print-bar no-print">
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <a href="/deep-research">← Deep Research로 돌아가기</a>
+    <span>|</span>
+    <span>PDF 출력 최적화 페이지 — Ctrl+P (Cmd+P) → 가로 방향 → 배경 그래픽 체크</span>
+  </div>
+  <button class="pdf-print-btn" onclick="window.print()">PDF로 저장</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 1: 표지 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-cover">
+  <div class="pdf-cover-content">
+    <div class="pdf-cover-badge">TEAM-J Deep Research</div>
+    <h1>AI 사업 아이템<br>심층 리서치 보고서</h1>
+    <p class="pdf-cover-sub">4개 핵심 사업 아이템에 대한 시장 데이터, 기술 동향, 정책 환경을 근거 자료와 함께 심층 분석</p>
+    <div class="pdf-cover-stats">
+      <div>
+        <div class="pdf-cover-stat-num">4</div>
+        <div class="pdf-cover-stat-label">핵심 아이템</div>
+      </div>
+      <div>
+        <div class="pdf-cover-stat-num">20+</div>
+        <div class="pdf-cover-stat-label">참조 자료</div>
+      </div>
+      <div>
+        <div class="pdf-cover-stat-num">10</div>
+        <div class="pdf-cover-stat-label">데이터 차트</div>
+      </div>
+    </div>
+    <div class="pdf-cover-meta">
+      <strong>2026.03</strong> &nbsp;|&nbsp; TEAM-J : 이정로, 정영, 이진영
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 2: 거시 환경 - 전제 + 고령화 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">MACRO TRENDS</div>
+      <div class="pdf-section-title">거시 환경 분석</div>
+      <p class="pdf-section-desc">초고령사회 진입, 1인가구 급증, AI 대중화 — 4개 아이템 모두를 관통하는 메가트렌드</p>
+    </div>
+
+    <div class="pdf-trend-grid">
+      <div class="pdf-trend-card pdf-trend-card--aging">
+        <h4>👥 소비자 니즈 분석</h4>
+        <p>고령화·1인가구 등 소비자의 미충족 니즈에서 출발한 아이템이 <strong style="color: #f59e0b;">전체의 64%</strong>. 페인포인트가 핵심 동인.</p>
+      </div>
+      <div class="pdf-trend-card pdf-trend-card--ai">
+        <h4>🤖 기술변화 분석</h4>
+        <p>AI/NLP, IoT, 컴퓨터비전 등 <strong style="color: #3b82f6;">기술 변곡점</strong>에서 비롯된 아이템이 <strong style="color: #3b82f6;">100%</strong>. AI 기반 혁신이 핵심.</p>
+      </div>
+      <div class="pdf-trend-card pdf-trend-card--personal">
+        <h4>📈 메가트렌드 분석</h4>
+        <p>초고령사회, AI 대중화, 개인화 소비 등 <strong style="color: #10b981;">거시적 메가트렌드</strong> 연계 아이템 <strong style="color: #10b981;">82%</strong>.</p>
+      </div>
+    </div>
+
+    <AgingTrendChart client:load />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 3: 거시 환경 - 1인가구 + AI 시장 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <SingleHouseholdChart client:load />
+
+    <div class="pdf-stat-row" style="margin-top: 24px;">
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #3b82f6;">6.3조원</div>
+        <div class="pdf-stat-label">한국 AI 시장 매출(2024)</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #8b5cf6;">CAGR 32.7%</div>
+        <div class="pdf-stat-label">AI 기업 수 증가율</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #06b6d4;">60%</div>
+        <div class="pdf-stat-label">AI 에이전트 도입 예정(2025)</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #f59e0b;">$78.7B</div>
+        <div class="pdf-stat-label">글로벌 AI-in-IoT 시장</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 4: 아이템1 - 통계 + 차트 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">ITEM 01</div>
+      <div class="pdf-section-title">AI 인지저하 탐지 + 간병보험 연계</div>
+      <p class="pdf-section-desc">스마트폰 사용 패턴·음성 분석으로 초기 인지 저하를 탐지, 간병보험 리스크 관리와 예방 서비스 연계</p>
+    </div>
+
+    <div class="pdf-stat-row">
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #3b82f6;">{item1Stats.marketSize}</div>
+        <div class="pdf-stat-label">{item1Stats.marketSizeLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #ef4444;">{item1Stats.growth}</div>
+        <div class="pdf-stat-label">{item1Stats.growthLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #f59e0b;">{item1Stats.targetUsers}</div>
+        <div class="pdf-stat-label">{item1Stats.targetUsersLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #06b6d4;">{item1Stats.nationalCost}</div>
+        <div class="pdf-stat-label">{item1Stats.nationalCostLabel}</div>
+      </div>
+    </div>
+
+    <CaregivingInsuranceChart client:load />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 5: 아이템1 - 치매 전망 + 기술 동향 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <DementiaProjectionChart client:load />
+
+    <div class="pdf-insight">
+      <h4>핵심 기술 동향</h4>
+      <p><strong>Samsung Research</strong>: 스마트폰/웨어러블 데이터(타이핑 속도, 백스페이스 빈도, 보행 속도 등) 기반 디지털 바이오마커 기술 개발. 병원 기반 치매 선별검사와 <strong>동등한 정확도</strong>. 2026년 중반 미국·한국 공개 베타 예정.</p>
+    </div>
+    <div class="pdf-insight">
+      <h4>경쟁사 분석</h4>
+      <p><strong>Linus Health</strong>(미국): Gartner Hype Cycle 2025 등재, Aural Analytics(FDA 혁신기기) 인수. <strong>LANGaware</strong>(유럽): 음성 바이오마커로 MCI/알츠하이머 감지. AI 음성 MCI 탐지 <strong>AUC 0.945~0.988</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 6: 아이템1 - SWOT + 참조자료 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header" style="margin-bottom: 20px;">
+      <div class="pdf-section-num">ITEM 01</div>
+      <div class="pdf-section-title" style="font-size: 1.4rem;">SWOT 분석 — AI 인지저하 탐지 + 간병보험</div>
+    </div>
+
+    <div class="pdf-swot">
+      <div class="pdf-swot-cell" style="background: rgba(59,130,246,0.05);">
+        <h5 style="color: #3b82f6;">강점 (Strength)</h5>
+        <ul>
+          <li>간병보험 시장 2년간 5배 폭발적 성장</li>
+          <li>MCI 환자 298만명 — 조기탐지 타겟 시장</li>
+          <li>삼성이 기술 검증, 전문 InsurTech 기회</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(16,185,129,0.05);">
+        <h5 style="color: #10b981;">기회 (Opportunity)</h5>
+        <ul>
+          <li>20.8조 국가 치매 비용 부담 절감 수요</li>
+          <li>한국 내 InsurTech + AI 전문 주자 부재</li>
+          <li>국가치매관리계획과 정책 연계 가능</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(245,158,11,0.05);">
+        <h5 style="color: #f59e0b;">약점 (Weakness)</h5>
+        <ul>
+          <li>의료기기 인허가 규제 리스크</li>
+          <li>개인 건강정보 수집 동의 필요</li>
+          <li>초기 데이터 확보 난이도 높음</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(239,68,68,0.05);">
+        <h5 style="color: #ef4444;">위협 (Threat)</h5>
+        <ul>
+          <li>삼성/빅테크 직접 진출 가능성</li>
+          <li>진단 오류 시 법적 책임 이슈</li>
+          <li>보험사의 자체 개발 움직임</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pdf-sources">
+      <h4>📚 참조 자료</h4>
+      <ul>
+        {item1Sources.map(s => (
+          <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 7: 아이템2 - 통계 + 차트 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">ITEM 02</div>
+      <div class="pdf-section-title">AI 대화 기반 매칭 시스템</div>
+      <p class="pdf-section-desc">AI 챗봇과 자연스러운 대화를 통해 성향을 파악, 연애·여행 매칭으로 확장</p>
+    </div>
+
+    <div class="pdf-stat-row">
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #8b5cf6;">{item2Stats.marketSize}</div>
+        <div class="pdf-stat-label">{item2Stats.marketSizeLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #3b82f6;">{item2Stats.growth}</div>
+        <div class="pdf-stat-label">{item2Stats.growthLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #f59e0b;">{item2Stats.aiShare}</div>
+        <div class="pdf-stat-label">{item2Stats.aiShareLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #10b981;">{item2Stats.travelMatches}</div>
+        <div class="pdf-stat-label">{item2Stats.travelMatchesLabel}</div>
+      </div>
+    </div>
+
+    <AIMatchingShareChart client:load />
+
+    <div class="pdf-insight">
+      <h4>핵심 기술 동향</h4>
+      <p>Auburn University(2025): AI 챗봇이 전통적 자기보고 성격검사와 <strong>동등하거나 더 높은 정확도</strong>로 성격 특성 추론 가능. Bumble 'Deception Detector' 스캠 계정 <strong>95% 차단</strong>. <strong>Gen Z의 절반</strong>이 데이팅에 AI 활용 중.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 8: 아이템2 - SWOT + 참조자료 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header" style="margin-bottom: 20px;">
+      <div class="pdf-section-num">ITEM 02</div>
+      <div class="pdf-section-title" style="font-size: 1.4rem;">SWOT 분석 — AI 대화 기반 매칭 시스템</div>
+    </div>
+
+    <div class="pdf-insight" style="margin-bottom: 16px;">
+      <h4>경쟁사 / 유사 서비스</h4>
+      <p><strong>위피(Wippy)</strong>: 2023 한국 매출 1위 데이팅앱. <strong>설레여행</strong>: 누적 매칭 1,500만+건, 9,000+ 도시, 16개 언어. <strong>Sitch</strong>(2025): AI+인간형 인터랙션 Pre-seed $2M. <strong>Juleo</strong>: Angel $2.5M(2024). 한국에는 AI-first 매칭 플랫폼이 아직 없음.</p>
+    </div>
+
+    <div class="pdf-swot">
+      <div class="pdf-swot-cell" style="background: rgba(139,92,246,0.05);">
+        <h5 style="color: #8b5cf6;">강점</h5>
+        <ul>
+          <li>한국 데이팅앱 연 지출 1,615억원</li>
+          <li>NLP 성격분석 기술 학술적 검증 완료</li>
+          <li>설문 아닌 자연스러운 대화 기반 차별화</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(16,185,129,0.05);">
+        <h5 style="color: #10b981;">기회</h5>
+        <ul>
+          <li>AI 매칭 비율 2030년 85% 전망</li>
+          <li>1인가구 1,000만 시대 — 매칭 수요 증가</li>
+          <li>여행 매칭으로 확장(솔로 여행 트렌드)</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(245,158,11,0.05);">
+        <h5 style="color: #f59e0b;">약점</h5>
+        <ul>
+          <li>대화 데이터 프라이버시 우려</li>
+          <li>초기 사용자 확보(Cold Start) 난제</li>
+          <li>매칭 실패 시 서비스 신뢰도 하락</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(239,68,68,0.05);">
+        <h5 style="color: #ef4444;">위협</h5>
+        <ul>
+          <li>Tinder/Bumble 등 글로벌 플레이어 AI 도입</li>
+          <li>개인정보보호법 규제 강화</li>
+          <li>데이팅앱 피로감 증가 추세</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pdf-sources">
+      <h4>📚 참조 자료</h4>
+      <ul>
+        {item2Sources.map(s => (
+          <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 9: 아이템6 - 통계 + 차트 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">ITEM 06</div>
+      <div class="pdf-section-title">IoT/카메라 기반 노견 상태 모니터링</div>
+      <p class="pdf-section-desc">카메라/센서로 노견 실시간 모니터링, 이상행동 감지 알림 및 시니어 돌봄으로 확장</p>
+    </div>
+
+    <div class="pdf-stat-row">
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #10b981;">{item6Stats.marketSize}</div>
+        <div class="pdf-stat-label">{item6Stats.marketSizeLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #ef4444;">{item6Stats.seniorDogRate}</div>
+        <div class="pdf-stat-label">{item6Stats.seniorDogRateLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #3b82f6;">{item6Stats.petOwners}</div>
+        <div class="pdf-stat-label">{item6Stats.petOwnersLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #f59e0b;">{item6Stats.insurancePenetration}</div>
+        <div class="pdf-stat-label">{item6Stats.insurancePenetrationLabel}</div>
+      </div>
+    </div>
+
+    <PetMarketChart client:load />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 10: 아이템6 - 펫보험 비교 + 기술 동향 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <PetInsuranceComparisonChart client:load />
+
+    <div class="pdf-insight">
+      <h4>핵심 기술 동향</h4>
+      <p><strong>펫페오톡</strong>: AI 행동인식 펫 CCTV '도기보기' — 실시간 스트리밍 + AI 행동 알림. <strong>Whistle Health</strong>: 10만+ 반려동물 4년+ 데이터 기반 웰니스 지수 산출. 글로벌 펫 모니터링 카메라 시장 $1.98억(2024) → $4.54억(2030), CAGR 12.6%.</p>
+    </div>
+    <div class="pdf-insight">
+      <h4>시니어 돌봄 확장 가능성</h4>
+      <p>노견 모니터링의 핵심 기술(IoT 센서, AI 영상분석, 이상행동 감지)은 <strong>고령 시니어 돌봄</strong>에 그대로 적용 가능. 낙상 감지, 활동량 저하 알림, 이상 상태 모니터링 등. 반려동물 → 사람으로 확장 시 시장 규모 <strong>수십 배</strong> 확대.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 11: 아이템6 - SWOT + 참조자료 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header" style="margin-bottom: 20px;">
+      <div class="pdf-section-num">ITEM 06</div>
+      <div class="pdf-section-title" style="font-size: 1.4rem;">SWOT 분석 — IoT 노견 상태 모니터링</div>
+    </div>
+
+    <div class="pdf-swot">
+      <div class="pdf-swot-cell" style="background: rgba(16,185,129,0.05);">
+        <h5 style="color: #10b981;">강점</h5>
+        <ul>
+          <li>전체 반려견의 28%가 노견(7세+)</li>
+          <li>'펫 = 가족' 트렌드로 프리미엄 지출 의향</li>
+          <li>시니어 돌봄으로 자연스러운 확장 가능</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(59,130,246,0.05);">
+        <h5 style="color: #3b82f6;">기회</h5>
+        <ul>
+          <li>펫보험 가입률 2% vs 일본 21% — 10배 성장 잠재력</li>
+          <li>반려동물 등록 의무화(2024) — 시장 투명성 증가</li>
+          <li>60대+ 반려인 지출 3년간 30% 증가</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(245,158,11,0.05);">
+        <h5 style="color: #f59e0b;">약점</h5>
+        <ul>
+          <li>하드웨어 초기 투자 비용</li>
+          <li>반려동물 개체 차이로 일반화 어려움</li>
+          <li>노견 전문 데이터 부족</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(239,68,68,0.05);">
+        <h5 style="color: #ef4444;">위협</h5>
+        <ul>
+          <li>삼성/LG 등 대기업 스마트홈 연동 진출</li>
+          <li>저가 중국산 펫 카메라 경쟁</li>
+          <li>반려인구 증가율 둔화 가능성</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pdf-sources">
+      <h4>📚 참조 자료</h4>
+      <ul>
+        {item6Sources.map(s => (
+          <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 12: 아이템8 - 통계 + 사고 차트 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">ITEM 08</div>
+      <div class="pdf-section-title">고령 운전자 인지력 저하 감지 서비스</div>
+      <p class="pdf-section-desc">차량 센서(OBD/텔레매틱스) 기반 고령 운전자 인지력 저하 감지 및 면허 반납 권고</p>
+    </div>
+
+    <div class="pdf-stat-row">
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #f59e0b;">{item8Stats.accidents}</div>
+        <div class="pdf-stat-label">{item8Stats.accidentsLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #ef4444;">{item8Stats.accidentShare}</div>
+        <div class="pdf-stat-label">{item8Stats.accidentShareLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #3b82f6;">{item8Stats.fatalityShare}</div>
+        <div class="pdf-stat-label">{item8Stats.fatalityShareLabel}</div>
+      </div>
+      <div class="pdf-stat-box">
+        <div class="pdf-stat-num" style="color: #06b6d4;">{item8Stats.drivers}</div>
+        <div class="pdf-stat-label">{item8Stats.driversLabel}</div>
+      </div>
+    </div>
+
+    <ElderlyAccidentTrendChart client:load />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 13: 아이템8 - 면허반납 + 면허자 전망 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <LicenseSurrenderChart client:load />
+    <ElderlyDriverProjectionChart client:load />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 14: 아이템8 - 기술동향 + 플로우 + SWOT -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header" style="margin-bottom: 20px;">
+      <div class="pdf-section-num">ITEM 08</div>
+      <div class="pdf-section-title" style="font-size: 1.4rem;">분석 — 고령 운전자 인지력 저하 감지</div>
+    </div>
+
+    <div class="pdf-insight">
+      <h4>핵심 기술 동향</h4>
+      <p><strong>Mind Foundry</strong>(옥스퍼드): AI로 인지력 저하-교통사고 연관 분석. <strong>아이오이 닛세이 도와 보험(일본)</strong>에서 상용화. <strong>90억 마일</strong> 텔레매틱스 분석. 투자유치 $4,400만.</p>
+    </div>
+    <div class="pdf-insight">
+      <h4>한국 UBI/텔레매틱스 현황</h4>
+      <p>DB손보 + 현대해상 UBI 가입자 <strong>113만 계약(2024)</strong>, YoY <strong>66.7% 성장</strong>. T맵/네이버지도/카카오내비/BlueLink/Kia Connect 연동.</p>
+    </div>
+
+    <div class="pdf-flow" style="margin: 20px 0;">
+      <div class="pdf-flow-step"><div class="pdf-flow-step-icon">🚗</div><div class="pdf-flow-step-text">OBD/센서 수집</div></div>
+      <div class="pdf-flow-arrow">→</div>
+      <div class="pdf-flow-step"><div class="pdf-flow-step-icon">🧠</div><div class="pdf-flow-step-text">AI 패턴 분석</div></div>
+      <div class="pdf-flow-arrow">→</div>
+      <div class="pdf-flow-step"><div class="pdf-flow-step-icon">⚠️</div><div class="pdf-flow-step-text">인지력 저하 판단</div></div>
+      <div class="pdf-flow-arrow">→</div>
+      <div class="pdf-flow-step"><div class="pdf-flow-step-icon">📋</div><div class="pdf-flow-step-text">면허 반납 권고</div></div>
+      <div class="pdf-flow-arrow">→</div>
+      <div class="pdf-flow-step"><div class="pdf-flow-step-icon">🎁</div><div class="pdf-flow-step-text">인센티브 제공</div></div>
+    </div>
+
+    <div class="pdf-swot">
+      <div class="pdf-swot-cell" style="background: rgba(245,158,11,0.05);">
+        <h5 style="color: #f59e0b;">강점</h5>
+        <ul>
+          <li>498만 고령 면허자 → 2050년 983만명</li>
+          <li>Mind Foundry 일본 상용화 검증</li>
+          <li>UBI 시장 이미 67% 성장 중</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(16,185,129,0.05);">
+        <h5 style="color: #10b981;">기회</h5>
+        <ul>
+          <li>한국 내 동등 서비스 부재 — 블루오션</li>
+          <li>2025년 적성검사 기준 강화</li>
+          <li>아이템1(간병보험)과 데이터 연계</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(59,130,246,0.05);">
+        <h5 style="color: #3b82f6;">약점</h5>
+        <ul>
+          <li>차량 OBD 접근 표준화 이슈</li>
+          <li>고령자 디지털 기기 사용 저항</li>
+          <li>면허 반납에 대한 심리적 거부감</li>
+        </ul>
+      </div>
+      <div class="pdf-swot-cell" style="background: rgba(239,68,68,0.05);">
+        <h5 style="color: #ef4444;">위협</h5>
+        <ul>
+          <li>자율주행차 보급 시 필요성 감소</li>
+          <li>정부 의무화 시 민간 서비스 대체</li>
+          <li>운전데이터 수집 동의 이슈</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pdf-sources">
+      <h4>📚 참조 자료</h4>
+      <ul>
+        {item8Sources.map(s => (
+          <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 15: 종합 비교 매트릭스 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-section-header">
+      <div class="pdf-section-num">COMPARISON</div>
+      <div class="pdf-section-title">4개 아이템 종합 비교</div>
+      <p class="pdf-section-desc">시장 규모, 성장률, 기술 준비도, 경쟁 상황, 정책 지원을 다차원 비교</p>
+    </div>
+
+    <table class="pdf-comp-table">
+      <thead>
+        <tr>
+          <th>차원</th>
+          <th style="color: #3b82f6;">1. 간병보험+AI</th>
+          <th style="color: #8b5cf6;">2. AI매칭</th>
+          <th style="color: #10b981;">6. 노견케어</th>
+          <th style="color: #f59e0b;">8. 고령운전자</th>
+        </tr>
+      </thead>
+      <tbody>
+        {comparisonMatrix.map(row => (
+          <tr>
+            <td style="font-weight: 700; color: #f8fafc;">{row.dimension}</td>
+            <td>{row.item1}</td>
+            <td>{row.item2}</td>
+            <td>{row.item6}</td>
+            <td>{row.item8}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAGE 16: 결론 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="pdf-page">
+  <div class="pdf-section">
+    <div class="pdf-conclusion">
+      <h2>Deep Research 결론</h2>
+      <p style="margin-bottom: 16px;">근거 데이터 분석 결과, <strong style="color: #3b82f6;">AI 인지저하 탐지 + 간병보험</strong>과 <strong style="color: #f59e0b;">고령 운전자 인지력 감지</strong>가 시장 규모·성장률·정책 지원 모든 축에서 가장 높은 점수를 기록합니다.</p>
+      <p style="margin-bottom: 16px;">두 아이템은 <strong>'인지력 저하 감지'</strong>라는 공통 기술 기반을 공유하여 <strong style="color: #8b5cf6;">통합 플랫폼 구축</strong>이 효율적이며, 보험사 B2B와 정부 B2G 수익모델을 동시에 확보할 수 있습니다.</p>
+      <p><strong style="color: #10b981;">노견 케어</strong>는 시니어 돌봄으로의 확장 가능성, <strong style="color: #8b5cf6;">AI 매칭</strong>은 1인가구 증가 트렌드와 맞물려 보조 사업으로 높은 잠재력을 보입니다.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 48px; color: #64748b; font-size: 0.8rem;">
+      AI 핀테크 비즈니스 모델 — 사업 아이템 체계적 탐색 리서치 보고서 | 2026.03 | TEAM-J : 이정로, 정영, 이진영
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
