@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx astro build:*)",
       "Bash(source:*)",
-      "Bash(nvm use:*)"
+      "Bash(nvm use:*)",
+      "Bash(brew install:*)"
     ]
   }
 }
