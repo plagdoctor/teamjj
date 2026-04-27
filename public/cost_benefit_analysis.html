@@ -727,6 +727,103 @@
     font-size: 0.78rem; color: var(--gray-400);
   }
 
+  /* ===================== STAKEHOLDER NETWORK ===================== */
+  #page-stakeholder .page-inner { max-width: 1400px; }
+
+  .sh-legend-bar {
+    display: flex; align-items: center; gap: 24px;
+    padding: 14px 20px; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; font-size: 12px; color: #475569;
+  }
+  .sh-legend-item { display: flex; align-items: center; gap: 6px; }
+  .sh-legend-line { width: 32px; height: 3px; border-radius: 2px; }
+  .sh-legend-line.supply { background: #f97316; }
+  .sh-legend-line.revenue { background: #2563eb; }
+  .sh-legend-line.data { background: #16a34a; }
+  .sh-legend-dash { width: 32px; height: 0; border-top: 2px dashed #94a3b8; }
+  .sh-legend-icon {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #fff; font-weight: 700;
+  }
+  .sh-legend-sep { width: 1px; height: 16px; background: #cbd5e1; }
+  .sh-drag-hint {
+    margin-left: auto; background: #eef2ff; color: #4f46e5;
+    padding: 4px 12px; border-radius: 6px; font-weight: 500; font-size: 11px;
+  }
+  .sh-canvas-wrap {
+    position: relative; width: 100%; height: 820px;
+    overflow: hidden;
+    background: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0);
+    background-size: 24px 24px;
+    cursor: default;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+  .sh-canvas-wrap svg.sh-edges {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; pointer-events: none;
+  }
+  .sh-node {
+    position: absolute; border-radius: 14px;
+    padding: 14px 18px; text-align: center;
+    cursor: grab; transition: box-shadow 0.15s;
+    z-index: 2; min-width: 130px;
+    user-select: none;
+  }
+  .sh-node:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.15); z-index: 10; }
+  .sh-node.dragging { cursor: grabbing; box-shadow: 0 10px 32px rgba(0,0,0,0.2); z-index: 20; opacity: 0.92; }
+  .sh-node .sh-icon { font-size: 28px; margin-bottom: 4px; }
+  .sh-node .sh-name { font-size: 14px; font-weight: 700; }
+  .sh-node .sh-role { font-size: 11px; font-weight: 400; margin-top: 2px; }
+  .sh-node .sh-detail { font-size: 10px; color: #64748b; margin-top: 2px; }
+  .sh-node.business-owner { background: #1a3a5c; color: #fff; border: 2.5px solid #0f2640; }
+  .sh-node.business-owner .sh-role { color: rgba(255,255,255,0.7); }
+  .sh-node.business-owner .sh-detail { color: rgba(255,255,255,0.5); }
+  .sh-node.customer { background: #e0f2fe; border: 2.5px solid #0ea5e9; }
+  .sh-node.customer .sh-name { color: #0c4a6e; }
+  .sh-node.customer .sh-role { color: #0369a1; }
+  .sh-node.partner { background: #f3e8ff; border: 2.5px solid #8b5cf6; }
+  .sh-node.partner .sh-name { color: #4c1d95; }
+  .sh-node.partner .sh-role { color: #6d28d9; }
+  .sh-node.supplier { background: #fff7ed; border: 2.5px solid #f97316; }
+  .sh-node.supplier .sh-name { color: #9a3412; }
+  .sh-node.supplier .sh-role { color: #c2410c; }
+  .sh-edge-label {
+    position: absolute; font-size: 10px; font-weight: 500;
+    padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+    pointer-events: none; z-index: 1;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .sh-edge-label.supply { color: #9a3412; border: 1px solid #fed7aa; }
+  .sh-edge-label.revenue { color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .sh-edge-label.data { color: #15803d; border: 1px solid #bbf7d0; }
+  .sh-edge-label.family { color: #475569; border: 1px solid #cbd5e1; }
+  .sh-info-panel {
+    padding: 24px; background: #f8fafc;
+    border-radius: 12px; border: 1px solid #e2e8f0;
+    margin-top: 16px;
+  }
+  .sh-info-panel h3 { font-size: 15px; font-weight: 700; color: #1a3a5c; margin-bottom: 14px; }
+  .sh-info-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;
+  }
+  .sh-info-card {
+    background: #fff; border: 1px solid #e2e8f0;
+    border-radius: 10px; padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .sh-info-card-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .sh-info-card-text h4 { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 3px; }
+  .sh-info-card-text p { font-size: 11px; color: #64748b; line-height: 1.6; }
+
   /* Responsive */
   @media (max-width: 900px) {
     .kpi-row { grid-template-columns: repeat(2, 1fr); }
@@ -757,6 +854,7 @@
       <button class="nav-tab" onclick="showPage('cost', event)">비용분석</button>
       <button class="nav-tab" onclick="showPage('roi', event)">B/C 분석</button>
       <button class="nav-tab" onclick="showPage('conclusion', event)">결론</button>
+      <button class="nav-tab" onclick="showPage('stakeholder', event)">이해관계자 네트워크</button>
     </div>
   </div>
 </nav>
@@ -1795,6 +1893,89 @@
   </div>
 </section>
 
+<!-- ===================== PAGE 6: Stakeholder Network ===================== -->
+<section id="page-stakeholder" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="page-badge" style="background:#FEF3C7;color:#B45309;">Stakeholder Network</div>
+      <h1>이해관계자 네트워크 구성도</h1>
+      <p>가족 안심 운전 모니터링 앱의 이해관계자 4축(Customer · Partner · Supplier · Business Owner) 가치 교환 네트워크 — 노드를 드래그하여 위치 조정 가능합니다.</p>
+    </div>
+
+    <div class="sh-legend-bar">
+      <div class="sh-legend-item"><div class="sh-legend-line supply"></div><b>Supply/Service</b></div>
+      <div class="sh-legend-item"><div class="sh-legend-line revenue"></div><b>Revenue/Payment</b></div>
+      <div class="sh-legend-item"><div class="sh-legend-line data"></div><b>Data Flow</b></div>
+      <div class="sh-legend-item"><div class="sh-legend-dash"></div><b>간접 관계</b></div>
+      <div class="sh-legend-sep"></div>
+      <div class="sh-legend-item"><div class="sh-legend-icon" style="background:#1a3a5c;">B</div>Business Owner</div>
+      <div class="sh-legend-item"><div class="sh-legend-icon" style="background:#0ea5e9;">C</div>Customer</div>
+      <div class="sh-legend-item"><div class="sh-legend-icon" style="background:#8b5cf6;">P</div>Partner</div>
+      <div class="sh-legend-item"><div class="sh-legend-icon" style="background:#f97316;">S</div>Supplier</div>
+      <div class="sh-drag-hint">노드를 드래그하여 위치를 조정하세요</div>
+    </div>
+
+    <div class="sh-canvas-wrap" id="shCanvas">
+      <svg class="sh-edges" id="shEdgeSvg">
+        <defs>
+          <marker id="sh-arr-s" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#f97316"/></marker>
+          <marker id="sh-arr-r" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#2563eb"/></marker>
+          <marker id="sh-arr-d" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#16a34a"/></marker>
+          <marker id="sh-arr-g" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="9" markerHeight="7" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#94a3b8"/></marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="sh-info-panel">
+      <h3>이해관계자별 핵심 가치 교환 (Value Exchange)</h3>
+      <div class="sh-info-grid">
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#e0f2fe;">🧒</div>
+          <div class="sh-info-card-text">
+            <h4>자녀 (Customer / Payer)</h4>
+            <p><b>제공:</b> 월 구독료 (4,900~9,900원)<br><b>수취:</b> 안전 리포트, 실시간 알림, 대화 가이드, 보험 할인</p>
+          </div>
+        </div>
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#e0f2fe;">👴</div>
+          <div class="sh-info-card-text">
+            <h4>부모 (Customer / User)</h4>
+            <p><b>제공:</b> 운전 데이터 (자동 수집)<br><b>수취:</b> Zero-Touch 안전 관리, 보험 할인, 면허반납 인센티브</p>
+          </div>
+        </div>
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#f3e8ff;">🏦</div>
+          <div class="sh-info-card-text">
+            <h4>보험사 (Partner / B2B)</h4>
+            <p><b>제공:</b> B2B 제휴 수수료, 보험료 할인<br><b>수취:</b> UBI 데이터 API → 리스크 스코어링</p>
+          </div>
+        </div>
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#f3e8ff;">🏛️</div>
+          <div class="sh-info-card-text">
+            <h4>지자체 (Partner / B2G)</h4>
+            <p><b>제공:</b> B2G 바우처 비용<br><b>수취:</b> 면허반납 대시보드, 위험도 분석</p>
+          </div>
+        </div>
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#fff7ed;">☁️</div>
+          <div class="sh-info-card-text">
+            <h4>AWS 클라우드 (Supplier)</h4>
+            <p><b>제공:</b> 클라우드 인프라 (SageMaker, TimescaleDB)<br><b>수취:</b> 인프라 사용 비용</p>
+          </div>
+        </div>
+        <div class="sh-info-card">
+          <div class="sh-info-card-icon" style="background:#fff7ed;">💬🗺️📱</div>
+          <div class="sh-info-card-text">
+            <h4>카카오 / 지도 API / 스마트폰 센서 (Supplier)</h4>
+            <p><b>제공:</b> 알림 API, 도로 제한속도, GPS·IMU·자이로 센서 데이터<br><b>수취:</b> API 사용료 / 라이선스</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <div class="footer">
   Team J · 가족 안심 운전 모니터링 앱 · 편익·비용 분석 (Cost-Benefit Analysis) · 2026
@@ -1807,6 +1988,171 @@
     document.getElementById('page-' + id).classList.add('active');
     if (event && event.target) event.target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (id === 'stakeholder') {
+      if (!window.__shInitialized) {
+        initStakeholderDiagram();
+        window.__shInitialized = true;
+      } else {
+        requestAnimationFrame(() => window.__shUpdateEdges && window.__shUpdateEdges());
+      }
+    }
+  }
+
+  // ─── Stakeholder Network Diagram ───
+  function initStakeholderDiagram() {
+    const nodes = [
+      { id: 'owner',  x: 600, y: 370, cls: 'business-owner', icon: '🏢', name: '서비스 운영사',  role: 'Business Owner', detail: '가족 안심 운전 모니터링 앱' },
+      { id: 'child',  x: 80,  y: 240, cls: 'customer',  icon: '🧒', name: '자녀 (결제자)', role: 'Customer / Payer', detail: '40~50대' },
+      { id: 'parent', x: 80,  y: 520, cls: 'customer',  icon: '👴', name: '부모 (사용자)', role: 'Customer / User',  detail: '65세+ 고령 운전자' },
+      { id: 'insurer', x: 1140, y: 240, cls: 'partner', icon: '🏦', name: '보험사',       role: 'Partner (B2B)', detail: 'UBI 보험 상품' },
+      { id: 'govt',    x: 1140, y: 520, cls: 'partner', icon: '🏛️', name: '지자체',      role: 'Partner (B2G)', detail: '면허반납 행정' },
+      { id: 'kakao',  x: 240,  y: 30,  cls: 'supplier', icon: '💬', name: '카카오톡 API',  role: 'Supplier', detail: '알림 전송' },
+      { id: 'aws',    x: 590,  y: 30,  cls: 'supplier', icon: '☁️', name: 'AWS 클라우드', role: 'Supplier', detail: '인프라' },
+      { id: 'map',    x: 940,  y: 30,  cls: 'supplier', icon: '🗺️', name: '지도/내비 API', role: 'Supplier', detail: '도로정보' },
+      { id: 'sensor', x: 360,  y: 700, cls: 'supplier', icon: '📱', name: '스마트폰 센서', role: 'Supplier', detail: 'GPS·IMU·자이로' },
+    ];
+
+    const edges = [
+      { from: 'owner',   to: 'child',   type: 's', label: '안전 리포트·알림',       curve: 40, labelT: 0.3 },
+      { from: 'owner',   to: 'parent',  type: 's', label: 'Zero-Touch 모니터링',    curve: 40, labelT: 0.3 },
+      { from: 'owner',   to: 'insurer', type: 's', label: 'UBI 데이터 API',         curve: 40, labelT: 0.3 },
+      { from: 'owner',   to: 'govt',    type: 's', label: '면허반납 대시보드',       curve: -20 },
+      { from: 'aws',     to: 'owner',   type: 's', label: '클라우드 인프라',         curve: 40, labelT: 0.3 },
+      { from: 'kakao',   to: 'owner',   type: 's', label: '알림 전송 API',          curve: 40, labelT: 0.3 },
+      { from: 'map',     to: 'owner',   type: 's', label: '도로 제한속도',          curve: 40, labelT: 0.3 },
+      { from: 'kakao',   to: 'child',   type: 's', label: '카카오톡 알림 전달',     curve: 0, dash: false },
+      { from: 'insurer', to: 'parent',  type: 's', label: '보험료 할인 혜택',       curve: 0, dash: true },
+      { from: 'govt',    to: 'parent',  type: 's', label: '면허반납 바우처',         curve: 0, dash: true },
+      { from: 'child',   to: 'owner',   type: 'r', label: '구독료 4,900~9,900/월',  curve: -20 },
+      { from: 'insurer', to: 'owner',   type: 'r', label: 'B2B 제휴 수수료',        curve: -20 },
+      { from: 'govt',    to: 'owner',   type: 'r', label: 'B2G 바우처 비용',        curve: -20 },
+      { from: 'owner',   to: 'aws',     type: 'r', label: '인프라 비용',            curve: -20, labelT: 0.3 },
+      { from: 'owner',   to: 'kakao',   type: 'r', label: 'API 사용료',            curve: -20, labelT: 0.3 },
+      { from: 'owner',   to: 'map',     type: 'r', label: 'API 라이선스',           curve: -20, labelT: 0.3 },
+      { from: 'parent',  to: 'owner',   type: 'd', label: '운전 데이터 (자동 수집)', curve: 20 },
+      { from: 'sensor',  to: 'parent',  type: 'd', label: 'GPS·가속도·자이로',      curve: 0 },
+      { from: 'child',   to: 'parent',  type: 'g', label: '가족 소통·대화',          curve: 0, dash: true },
+    ];
+
+    const canvas = document.getElementById('shCanvas');
+    const svgEl = document.getElementById('shEdgeSvg');
+    const nodeEls = {};
+    const edgeObjs = [];
+
+    nodes.forEach(n => {
+      const div = document.createElement('div');
+      div.className = `sh-node ${n.cls}`;
+      div.id = `sh-node-${n.id}`;
+      div.innerHTML = `
+        <div class="sh-icon">${n.icon}</div>
+        <div class="sh-name">${n.name}</div>
+        <div class="sh-role">${n.role}</div>
+        <div class="sh-detail">${n.detail}</div>`;
+      div.style.left = n.x + 'px';
+      div.style.top = n.y + 'px';
+      canvas.appendChild(div);
+      nodeEls[n.id] = { el: div, data: n };
+    });
+
+    const colors = { s: '#f97316', r: '#2563eb', d: '#16a34a', g: '#94a3b8' };
+    const markers = { s: 'sh-arr-s', r: 'sh-arr-r', d: 'sh-arr-d', g: 'sh-arr-g' };
+    const lblCls = { s: 'supply', r: 'revenue', d: 'data', g: 'family' };
+
+    edges.forEach(e => {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('stroke', colors[e.type]);
+      path.setAttribute('stroke-width', e.type === 'g' ? '1.5' : '2.2');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('marker-end', `url(#${markers[e.type]})`);
+      if (e.dash) path.setAttribute('stroke-dasharray', '7,4');
+      svgEl.appendChild(path);
+
+      const lbl = document.createElement('div');
+      lbl.className = `sh-edge-label ${lblCls[e.type]}`;
+      lbl.textContent = e.label;
+      canvas.appendChild(lbl);
+
+      edgeObjs.push({ path, lbl, edge: e });
+    });
+
+    function getCenter(id) {
+      const el = nodeEls[id].el;
+      return {
+        x: parseFloat(el.style.left) + el.offsetWidth / 2,
+        y: parseFloat(el.style.top) + el.offsetHeight / 2
+      };
+    }
+
+    function borderIntersect(el, cx, cy, tx, ty) {
+      const hw = el.offsetWidth / 2 + 5;
+      const hh = el.offsetHeight / 2 + 5;
+      const dx = tx - cx, dy = ty - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist === 0) return { x: cx, y: cy };
+      const ux = dx / dist, uy = dy / dist;
+      const ax = Math.abs(ux), ay = Math.abs(uy);
+      const d = (ax < 0.001) ? hh : (ay < 0.001) ? hw : Math.min(hw / ax, hh / ay);
+      return { x: cx + ux * d, y: cy + uy * d };
+    }
+
+    function updateEdges() {
+      edgeObjs.forEach(({ path, lbl, edge }) => {
+        const fc = getCenter(edge.from);
+        const tc = getCenter(edge.to);
+        const fp = borderIntersect(nodeEls[edge.from].el, fc.x, fc.y, tc.x, tc.y);
+        const tp = borderIntersect(nodeEls[edge.to].el, tc.x, tc.y, fc.x, fc.y);
+        const mx = (fp.x + tp.x) / 2;
+        const my = (fp.y + tp.y) / 2;
+        const dx = tp.x - fp.x, dy = tp.y - fp.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const curveAmt = edge.curve || 0;
+        const cx = mx + (-dy / dist) * curveAmt;
+        const cy = my + (dx / dist) * curveAmt;
+        path.setAttribute('d', `M ${fp.x} ${fp.y} Q ${cx} ${cy} ${tp.x} ${tp.y}`);
+        const t = edge.labelT !== undefined ? edge.labelT : 0.5;
+        const lx = (1-t)*(1-t)*fp.x + 2*(1-t)*t*cx + t*t*tp.x;
+        const ly = (1-t)*(1-t)*fp.y + 2*(1-t)*t*cy + t*t*tp.y;
+        lbl.style.left = (lx - lbl.offsetWidth / 2) + 'px';
+        lbl.style.top = (ly - lbl.offsetHeight / 2) + 'px';
+      });
+    }
+
+    window.__shUpdateEdges = updateEdges;
+    requestAnimationFrame(() => { updateEdges(); requestAnimationFrame(updateEdges); });
+
+    let dragNode = null, dragOff = { x: 0, y: 0 };
+
+    canvas.addEventListener('pointerdown', e => {
+      const n = e.target.closest('.sh-node');
+      if (!n) return;
+      e.preventDefault();
+      dragNode = n;
+      dragNode.classList.add('dragging');
+      dragNode.setPointerCapture(e.pointerId);
+      const r = canvas.getBoundingClientRect();
+      dragOff.x = e.clientX - parseFloat(n.style.left) - r.left;
+      dragOff.y = e.clientY - parseFloat(n.style.top) - r.top;
+    });
+
+    canvas.addEventListener('pointermove', e => {
+      if (!dragNode) return;
+      e.preventDefault();
+      const r = canvas.getBoundingClientRect();
+      let nx = e.clientX - r.left - dragOff.x;
+      let ny = e.clientY - r.top - dragOff.y;
+      nx = Math.max(0, Math.min(r.width - dragNode.offsetWidth, nx));
+      ny = Math.max(0, Math.min(r.height - dragNode.offsetHeight, ny));
+      dragNode.style.left = nx + 'px';
+      dragNode.style.top = ny + 'px';
+      updateEdges();
+    });
+
+    canvas.addEventListener('pointerup', () => {
+      if (dragNode) { dragNode.classList.remove('dragging'); dragNode = null; }
+    });
+
+    window.addEventListener('resize', updateEdges);
   }
 </script>
 </body>
